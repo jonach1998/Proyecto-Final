@@ -10,14 +10,19 @@
 //Temp
 #define stemp 2
 OneWire stemponewire(stemp);
-DallasTemperature sensors(&stemponewire); 
+DallasTemperature sensors(&stemponewire);
+float promedio; 
 //Lux
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 //UV
 Adafruit_SI1145 uv = Adafruit_SI1145();
+//BOMBA
+int bomba=5;
 
 void setup() {
 Serial.begin(9600);
+pinMode(bomba,OUTPUT);
+digitalWrite(bomba,LOW);
 //Temp
 sensors.begin(); 
 //Lux
@@ -38,41 +43,55 @@ sensors.begin();
 void loop() {
 //Temp
 sensors.requestTemperatures();
-//Lux
-sensors_event_t event;
-tsl.getEvent(&event);
-//UV
-float UVindex = uv.readUV(); 
-UVindex = UVindex/100;
-
-//Lux
-  if (event.light)
+  if(sensors.getTempCByIndex(0)!= -127 and sensors.getTempCByIndex(1) != -127 and sensors.getTempCByIndex(2) != -127)
   {
-  Serial.print(event.light); 
-  Serial.print(" lux    "); 
-  Serial.print(sensors.getTempCByIndex(0)); 
-  Serial.print(" grados    ");
-  Serial.print("UV: ");
-  Serial.println(UVindex);
+    digitalWrite(bomba,LOW);
+    promedio = (sensors.getTempCByIndex(0)+sensors.getTempCByIndex(1)+sensors.getTempCByIndex(2))/3;
+    //Lux
+    sensors_event_t event;
+    tsl.getEvent(&event);
+    //UV
+    float UVindex = uv.readUV(); 
+    UVindex = UVindex/100;
+    
+    //Lux
+      if (event.light)
+      {
+      Serial.print(event.light); 
+      Serial.print(" lux    "); 
+      } 
+      else 
+      {
+      Serial.print(0); 
+      Serial.print(" lux    "); 
+      }
+      Serial.print(sensors.getTempCByIndex(0)); 
+      Serial.print(" grados0    ");
+      Serial.print(sensors.getTempCByIndex(1)); 
+      Serial.print(" grados1    ");
+      Serial.print(sensors.getTempCByIndex(2)); 
+      Serial.print(" grados2    ");
+      Serial.print("Promedio: "); 
+      Serial.print(promedio); 
+      Serial.print(" grados    ");
+      Serial.print("UV: ");
+      Serial.println(UVindex);
   }
-
+  else Serial.println("Verifique sensores de temperatura");
 }
 
 //Lux
 void displaySensorDetails(void)
 {
   sensor_t sensor;
-  tsl.getSensor(&sensor);
-  Serial.print  ("Max Value:    "); Serial.print(sensor.max_value); Serial.println(" lux");
-  Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" lux");
-  Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" lux");  
+  tsl.getSensor(&sensor); 
 }
 
 void configureSensor(void)
 {
   tsl.enableAutoRange(true);      
   //tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);      /* fast but low resolution */
-  // tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_101MS);  /* medium resolution and speed   */
-   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);  /* 16-bit data but slowest conversions */
+  //tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_101MS);  /* medium resolution and speed   */
+  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);  /* 16-bit data but slowest conversions */
 }
 //
