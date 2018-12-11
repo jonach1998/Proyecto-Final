@@ -1,7 +1,9 @@
 #include <EasyTransfer.h>
-
+#include <SoftwareSerial.h>
 //create object
 EasyTransfer ET; 
+
+SoftwareSerial myserial(4, SW_SERIAL_UNUSED_PIN); // RX, TX
 
 struct RECEIVE_DATA_STRUCTURE{
   //put your variable definitions here for the data you want to receive
@@ -19,8 +21,9 @@ RECEIVE_DATA_STRUCTURE mydata;
 
 void setup(){
   Serial.begin(9600);
+  myserial.begin(9600);
   //start the library, pass in the data details and the name of the serial port. Can be Serial, Serial1, Serial2, etc. 
-  ET.begin(details(mydata), &Serial);
+  ET.begin(details(mydata), &myserial);
 }
 
 void loop(){
@@ -41,7 +44,6 @@ void loop(){
     Serial.print("tempprom: ");
     Serial.println(mydata.tempprom);
   }
-  
   //you should make this delay shorter then your transmit delay or else messages could be lost
   delay(250);
 }
