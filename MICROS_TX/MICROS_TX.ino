@@ -64,6 +64,10 @@ void setup(){
 
 void loop(){
     //Temp
+
+    if(sensors.getTempCByIndex(0)!= -127 and sensors.getTempCByIndex(1) != -127 and sensors.getTempCByIndex(2) != -127)
+    {
+    
     sensors.requestTemperatures();
     digitalWrite(bomba,LOW);
     promedio = (sensors.getTempCByIndex(0)+sensors.getTempCByIndex(1)+sensors.getTempCByIndex(2))/3;
@@ -90,6 +94,8 @@ void loop(){
       mydata.tempprom=(promedio); 
       ET.sendData();
       delay(100);
+    }
+      else Serial.println("Verifique sensores de temperatura");
 }
 //Lux
 void displaySensorDetails(void)
