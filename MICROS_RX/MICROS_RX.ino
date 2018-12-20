@@ -2,8 +2,8 @@
 #include <FirebaseArduino.h>
 #include <EasyTransfer.h>
 #include <SoftwareSerial.h>
-#define red "Fer"
-#define password "crustaceo"
+#define red "Laboratorios Electronica"
+#define password "vivalaelectronica"
 #define FIREBASE_HOST "pv12-3bba3.firebaseio.com"
 #define FIREBASE_AUTH "KPMkDtjaA54Aiz0mNbRQPv3sikpTxjLK75BV9lui"
 EasyTransfer ET; 
@@ -18,6 +18,7 @@ struct RECEIVE_DATA_STRUCTURE{
   float temp1;
   float temp2;
   float tempprom;
+  float humedad;
 };
 
 
@@ -56,8 +57,11 @@ void loop(){
     Serial.println(mydata.temp2);
     Serial.print("tempprom: ");
     Serial.println(mydata.tempprom);
+    Serial.print("humedad: ");
+    Serial.println(mydata.humedad);
     Firebase.setFloat("lux",mydata.lux);
     Firebase.setFloat("uv",mydata.uv);
+    Firebase.setFloat("hr",mydata.humedad);
     Firebase.setFloat("temp0",mydata.temp0);
     Firebase.setFloat("temp1",mydata.temp1);
     Firebase.setFloat("temp2",mydata.temp2);

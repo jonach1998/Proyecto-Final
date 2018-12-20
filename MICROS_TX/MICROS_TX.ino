@@ -12,11 +12,15 @@ struct SEND_DATA_STRUCTURE{
   float temp1;
   float temp2;
   float tempprom;
+  float humedad;
 };
 
 //give a name to the group of data
 SEND_DATA_STRUCTURE mydata;
-
+//Humedad
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
 //Temp
 #include <OneWire.h> 
 #include <DallasTemperature.h>
@@ -37,6 +41,11 @@ Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 1234
 Adafruit_SI1145 uv = Adafruit_SI1145();
 //BOMBA
 int bomba=5;
+//Humedad
+#define DHTPIN            3         // Pin which is connected to the DHT sensor.
+#define DHTTYPE           DHT11
+DHT_Unified dht(DHTPIN, DHTTYPE);
+uint32_t delayMS;
 
 void setup(){
   Serial.begin(9600);
@@ -60,15 +69,19 @@ void setup(){
       Serial.println("Sensor UV no funciona");
       while (1);
     }
+   //Humedad
+    dht.begin();
+    sensor_t sensor;
+    dht.temperature().getSensor(&sensor);
+        // Set delay between sensor readings based on sensor details.
+    //delayMS = sensor.min_delay / 1000;
 }
 
 void loop(){
     //Temp
-
+    sensors.requestTemperatures();
     if(sensors.getTempCByIndex(0)!= -127 and sensors.getTempCByIndex(1) != -127 and sensors.getTempCByIndex(2) != -127)
     {
-    
-    sensors.requestTemperatures();
     digitalWrite(bomba,LOW);
     promedio = (sensors.getTempCByIndex(0)+sensors.getTempCByIndex(1)+sensors.getTempCByIndex(2))/3;
     //Lux
@@ -77,7 +90,14 @@ void loop(){
     //UV
     float UVindex = uv.readUV(); 
     UVindex = UVindex/100;
-    
+    //Humedad
+    dht.humidity().getEvent(&event);
+      if (isnan(event.relative_humidity)) {
+      mydata.humedad=0;
+      }
+      else {
+      mydata.humedad=(event.relative_humidity);
+      }
     //Lux
       if (event.light)
       {
