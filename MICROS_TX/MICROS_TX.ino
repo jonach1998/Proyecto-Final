@@ -74,37 +74,39 @@ void setup(){
     sensor_t sensor;
     dht.temperature().getSensor(&sensor);
         // Set delay between sensor readings based on sensor details.
-    //delayMS = sensor.min_delay / 1000;
+    delayMS = sensor.min_delay / 1000;
 }
 
 void loop(){
-    //Temp
-    sensors.requestTemperatures();
-    if(sensors.getTempCByIndex(0)!= -127 and sensors.getTempCByIndex(1) != -127 and sensors.getTempCByIndex(2) != -127)
-    {
-    digitalWrite(bomba,LOW);
-    promedio = (sensors.getTempCByIndex(0)+sensors.getTempCByIndex(1)+sensors.getTempCByIndex(2))/3;
-    //Lux
-    sensors_event_t event;
-    tsl.getEvent(&event);
-    //UV
-    float UVindex = uv.readUV(); 
-    UVindex = UVindex/100;
-    //Humedad
-    dht.humidity().getEvent(&event);
-      if (isnan(event.relative_humidity)) {
-      mydata.humedad=0;
-      }
-      else {
-      mydata.humedad=(event.relative_humidity);
-      }
-    //Lux
+      //Temp
+      sensors.requestTemperatures();
+      if(sensors.getTempCByIndex(0)!= -127 and sensors.getTempCByIndex(1) != -127 and sensors.getTempCByIndex(2) != -127)
+      {
+      digitalWrite(bomba,LOW);
+      promedio = (sensors.getTempCByIndex(0)+sensors.getTempCByIndex(1)+sensors.getTempCByIndex(2))/3;
+      //Lux
+      sensors_event_t event;
+      tsl.getEvent(&event);
+      //UV
+      float UVindex = uv.readUV(); 
+       UVindex = UVindex/100;
+      //Lux
       if (event.light)
       {
       mydata.lux=(event.light);
       } 
       else 
       {
+      //Humedad
+      dht.humidity().getEvent(&event);
+      if (isnan(event.relative_humidity)) {
+      mydata.humedad=0;
+      }
+      else {
+      mydata.humedad=(event.relative_humidity);
+      } 
+      delay(delayMS);
+
       mydata.lux=0; 
       }
       mydata.uv=(UVindex);
