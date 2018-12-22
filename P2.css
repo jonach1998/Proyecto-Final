@@ -1,0 +1,179 @@
+body
+{
+  background-color: #000;
+}
+
+#t
+{
+font-family: Arial;
+ margin:0;
+ padding:0;
+ text-transform: uppercase;
+ font-size:3em;
+ color: rgba(255,255,255,.1);
+ background-image: url(plants.jpg);
+ background-repeat: repeat-x;
+ -webkit-background-clip:text;
+ animation: animate 15s linear infinite
+}
+
+#list
+{
+  color: #C8D2D6;
+  font-size: 20px;
+  padding-top: 5px;
+}
+
+.row
+{
+  transform: translate(0%,5%);
+}
+
+@keyframes animate {
+  0%
+  {
+    background-position: left 0px top 0px;
+  }
+  40%
+  {
+    background-position: left 80px top -50px;
+  }
+  80%
+  {
+    background-position: left 80px top -50px;
+  }
+}
+
+#two{
+  margin: 0px;
+  padding: 0px;
+  display: block;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  letter-spacing: -1px;
+  color: #fff;
+  line-height: 24px;
+   display: inline;
+}
+
+#s1h
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+   display: inline;
+}
+
+#s2t
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+   display: inline;
+}
+
+#st0
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+}
+
+
+#st1
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+}
+
+
+#st2
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+}
+
+
+
+#s3l
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+   display: inline;
+}
+
+#s4u
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+   display: inline;
+}
+
+#s5
+{
+   display: block;
+   color: #C8D2D6;
+   font-size: 20px;
+   padding-top: 5px;
+   display: inline;
+}
+
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 30%;
+    padding: 10px;
+    height: 500px; /* Should be removed. Only for demonstration */
+      background-color:#000;
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.spacing {
+  background-color: #575E62;
+  font-size: 10px;
+}
+
+.lightButton{
+  color: white;
+  font-size: 20px;
+  font-family: helvetica;
+
+  text-decoration: none;
+
+  border: 2px solid white;
+  border-radius: 20px;
+
+  transition-duration: .2s;
+  -webkit-transition-duration: .2s;
+  -moz-transition-duration: .2s;
+
+  background-color: black;
+  padding: 4px 30px;
+  }
